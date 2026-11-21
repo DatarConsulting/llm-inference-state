@@ -1,0 +1,69 @@
+\section{The bit cost of a single checkpoint}\label{app:entropy}
+We prove the bit law independently of the streaming dimension converse. Fix $d\ge2$, $p\ge1$ and $\beta>0$. Use normalized surface measure $\omega$ on $\mathbb S^{d-1}$. A nonempty prefix of known length $n$ defines the empirical probability $\mu=n^{-1}\sum_i\delta_{k_i}$ and vector measure $\nu=n^{-1}\sum_i v_i\delta_{k_i}$, with $\|v_i\|_2\le1$. Their spherical exponential transforms are $z$ and $x$, so $e^{-\beta}\le z\le e^\beta$ and $\|x\|_2\le z$. At a checkpoint the encoder sees the whole prefix and sends one fixed-width message. The decoder subsequently receives the entire exact suffix, and can use arbitrary working storage and exact arithmetic after the cut. Its worst-case Euclidean read error is at most $\eps$ at every requested query, including after an empty suffix. Define $\Bchk$ as the supremum, over $n$, of the least required number of bits for that $n$. Encoders and decoders may depend on $n$. In $\Bfree$ the ordered prefix keys are also available to the decoder; their transmission cost is excluded. There is no continuity assumption on a finite-message encoder.
+
+\begin{theorem}[Entropy of resumable spherical attention]\label{th:bits}
+Set $T=\log(1/\eps)$ and $m_T=T/\log T$. Then
+\[
+ \lim_{\eps\downarrow0}\frac{\Bchk(\eps)}{T m_T^{\,d-1}}
+ =\frac{2(p+1)}{d!\log2},
+ \qquad
+ \lim_{\eps\downarrow0}\frac{\Bfree(\eps)}{T m_T^{\,d-1}}
+ =\frac{2p}{d!\log2}.
+\]
+The same limits hold with supplied global rotations of the existing keys and a fixed continuous orthogonal action on the values.
+\end{theorem}
+
+\subsection{Which metric does a future read observe?}
+Let $F(P,P')$ be the supremum of the Euclidean output gap over all common suffixes and final queries of two length-$n$ prefixes. Write $u=\sup_q|z-z'|$ and $v=\sup_q\|x-x'\|_2$. All transforms in this section use per-prefix averages. Adding exact suffix sums divided by $n$ changes neither profile difference. Normalizing the two totals gives $F\le e^\beta(u+v)$, since each total mass is at least $e^{-\beta}$ and each exact read has norm at most one. In the presence of rotations the prefix functions are composed with a common orthogonal change of argument and the numerator is rotated; the suprema are invariant.
+
+For the reverse comparison fix $q$ and put $b=e^\beta$. Append $n$ copies of key $q$ carrying $+e$ or $-e$, for a fixed unit vector $e$. Write $s=z/b$, $a=x/b$. The two outputs are $y_\pm=(a\pm e)/(1+s)$, with $s\le1$. Their half-difference is $e/(1+s)$ and their mean is $a/(1+s)$. If the two prefixes' responses on each probe differ by at most $F$, both the mean and the half-difference differ by at most $F$. Thus $|s-s'|\le4F$ and $\|a-a'\|_2\le 2F+4F=6F$, since the mean has norm at most one. In particular
+\begin{equation}
+ \| (z-z',x-x')\|_{L^2(\omega;\mathbb R^{p+1})}\le 8e^\beta F(P,P').
+ \label{eq:inverse}
+\end{equation}
+The identities apply equally to ideal probability and vector measures, interpreted with probe mass $b$. All constants are independent of $n$. Any two ordinary prefixes assigned the same message must satisfy $F\le2\eps$. The free-key version uses this statement only for pairs with identical keys.
+
+\subsection{Harmonic scales}
+Let $h_\ell$ be the dimension of degree-$\ell$ spherical harmonics and $D_m=\sum_{\ell\le m}h_\ell$. In a real orthonormal basis, $\sum_jY_{\ell j}(q)^2=h_\ell$ by rotational invariance and integration. The spherical convolution with $e^{\beta q^\top k}$ acts as a scalar $\lambda_\ell$ at each degree. The moment tensor calculation in Lemma~\ref{lem:spectral} applies with continuous surface measure: each term $(q^\top k)^j$ acts by a nonnegative scalar, vanishes on degrees above $j$, and at $j=\ell$ contributes $\ell!/[d(d+2)\cdots(d+2\ell-2)]$ before exponential weighting. For the upper estimate, deleting the Taylor terms below $\ell$ leaves the same operator on degree $\ell$. Its norm is bounded by the supremum of the absolute kernel remainder (probability measure), giving
+\[
+ \frac{\beta^\ell}{d(d+2)\cdots(d+2\ell-2)}\le \lambda_\ell
+ \le e^\beta\frac{\beta^\ell}{\ell!},\qquad
+ \log\lambda_\ell=-\ell\log(\ell\vee1)+O_{d,\beta}(\ell+1).
+\]
+These inequalities include degree zero with the empty product. An empirical profile has coefficient $\lambda_\ell\int Y_{\ell j}\,d\mu$ or $\lambda_\ell\int Y_{\ell j}\,d\nu_c$. The whole degree block of each scalar profile before multiplication by $\lambda_\ell$ has Euclidean norm at most $\sqrt{h_\ell}$ by the addition identity and total variation at most one. At every query the norm of the corresponding degree contribution to a scalar channel is consequently at most $h_\ell\lambda_\ell$. Absolute uniform summability follows from the factorial bound. Completeness of spherical harmonics identifies the series with the original continuous profile.
+
+\paragraph{A sum used in both bounds.}
+Let $c$ be a fixed number of scalar channels, and define $[t]_+=\max(0,t)$. For any fixed $K>1$,
+\begin{equation}
+ \sum_{\ell\le K m_T} c h_\ell[T+\log\lambda_\ell]_+
+ \sim \frac{2c}{d!}\,T m_T^{d-1}. \label{eq:shellsum}
+\end{equation}
+Replacing the bracket argument by $T-\ell\log(\ell\vee1)$ costs $O(m_T^{d})=o(Tm_T^{d-1})$, since $[\,\cdot\,]_+$ is 1-Lipschitz. Uniformly for $0\le\ell\le K m_T$, $\ell\log(\ell\vee1)/T=\ell/m_T+o(1)$; this follows from $\log m_T/\log T\to1$ and boundedness of $s\log s$ on $[0,K]$. The exact dimension formula in Section~\ref{sec:upper} gives $h_\ell\sim2\ell^{d-2}/(d-2)!$ (on the circle $h_\ell=2$ for $\ell\ge1$). The normalized sum tends to $2c/(d-2)!\int_0^1 s^{d-2}(1-s)\,ds=2c/d!$. A uniform additive $O(\log(m_T+2))$ inside the brackets changes only lower-order terms. Discarding one constant coefficient costs $O(T)$, also lower order since $d\ge2$.
+
+\subsection{Upper bound by quantizing a checkpoint once}
+Take $m=\lceil 2m_T\rceil$ and $c=p+1$ for the joint code, or $c=p$ for free keys. The tail bound $\sum_{\ell>m}h_\ell e^\beta\beta^\ell/\ell!=\exp[-m\log m+O_{d,\beta}(m)]=o(\eps)$ holds as an upper estimate. For each of the $c$ scalar profiles, round every retained coefficient to the nearest multiple of
+\[
+ \Delta=\frac{\eps e^{-\beta}}{32\sqrt{p+1}\,(D_m+1)^2}.
+\]
+Summing the absolute coefficient errors against the basis at a query costs at most $\Delta\sum_{\ell\le m}h_\ell\sqrt{h_\ell}\le \Delta D_m^2$ per channel. For sufficiently small $\eps$, the combined uniform error of the scalar mass and the vector numerator is therefore below $\eps e^{-\beta}/4$ each. Free keys give the mass exactly. For an exact suffix, the decoded denominator is at least $e^{-\beta}(1-\eps/4)$, in units of prefix length. The normalized read differs by at most $(\eps/2)/(1-\eps/4)\le\eps$ for $\eps\le1$. Multiplication by $n$ restores the actual scale if raw suffix sums are used. Future rotations can be applied by rotating the query back to the checkpoint frame and rotating the predicted vector forward; this introduces no further quantization.
+
+Each scalar coefficient lies in $[-\sqrt{h_\ell}\lambda_\ell,\sqrt{h_\ell}\lambda_\ell]$. The number of rounding outcomes per coordinate is at most $2+2\sqrt{h_\ell}\lambda_\ell/\Delta$. An index into their Cartesian product requires the ceiling of its base-two logarithm. Its natural logarithm is bounded by
+\[
+ \sum_{\ell\le m} c h_\ell [T+\log\lambda_\ell]_+ + O_{d,p,\beta}(D_m\log(m+2)).
+\]
+The last term includes levels with only one or two rounding outcomes. Equation~\eqref{eq:shellsum} and conversion to bits prove the limsup. Computation of the coefficients is unrestricted at the cut; the argument charges a single message.
+
+\subsection{Lower bound from profiles attainable by ordinary tokens}
+Choose real polynomials $u,f_1,\ldots,f_p$ of degree at most $m$, with the constant coefficient of $u$ deleted. Their joint coefficient vector ranges over the Euclidean unit ball. Put $\alpha=(2\sqrt{D_m})^{-1}$. Against $\omega$ take key density $1+\alpha u$ and conditional value vector $\alpha f/(1+\alpha u)$. The key density integrates to one and is at least $1/2$. The evaluation-vector identity through degree $m$ gives $\|f(q)\|_2\le\sqrt{D_m}$ and $|u(q)|\le\sqrt{D_m}$, so the conditional values are legal. Subtract the unperturbed profile. In the joint $L^2$ norm, the resulting profile vectors fill an ellipsoid with semiaxes $\alpha\lambda_\ell$, one for every retained coefficient. With free keys take $u=0$ throughout, keep only the $p$ value channels and use the same uniform key measure for all parameters.
+
+Set $m=\lceil2m_T\rceil$ and $r=64 e^\beta\eps$. Restrict to axes longer than $r$. A maximal $r$-separated set in the resulting ellipsoid covers it with radius-$r$ Euclidean balls. Comparing volumes gives at least $\prod_i (\alpha\lambda_{\ell(i)}/r)$ centers, with the product restricted to these axes. This finite set suffices. Its ideal prefixes can be approximated by ordinary equal-length prefixes with joint profile error below $r/8$ for every center. To see this, partition the sphere into finitely many Borel cells of small diameter. For each center put its key mass in each cell at one representative key, using its mass-weighted mean value in that cell. Uniform continuity of the kernel bounds the two transform errors uniformly in $q$. Round the resulting weights to multiples of $1/n$ with total one; for $H$ cells their total absolute rounding error is at most $2H/n$. The same large $n$ works for all centers. In the free-key case the cell weights, rounded counts and key order can be chosen identical because all key marginals coincide. Values remain in the unit ball. This construction only has to realize finitely many points; the continuous family needed for the streaming theorem is constructed separately in Lemma~\ref{lem:realize}.
+
+The realized profiles are at least $3r/4$ apart. A shared message would instead put them within $16 e^\beta\eps$ by \eqref{eq:inverse}. All centers require different messages, including with free keys in the fixed-key construction. Taking natural logarithms yields
+\[
+ \sum_{\ell\le m}c h_\ell[T+\log\lambda_\ell+\log\alpha-\log(64e^\beta)]_+-O(T).
+\]
+The subtracted term allows for the fixed scalar mass coefficient. Since $\log\alpha=O(\log(m+2))$, \eqref{eq:shellsum} gives the matching liminf after division by $\log 2$. This completes Theorem~\ref{th:bits}.
+
+\paragraph{Reading the coefficient.}
+Relative to the continuous streaming dimension $r_*(\eps)$, the joint one-checkpoint bit cost is asymptotic to $T r_*(\eps)/(d\log2)$. Successively higher degrees have fewer significant digits. This accounts for the factor $1/d$ compared with assigning $T/\log 2$ bits to every retained real coordinate. The upper bound performs only one rounding of the historical contribution. Repeated rounding after each token, a private or unknown prefix length, bounded decoder workspace, a fixed deployment horizon and exact IEEE-word restart each define other coding problems.
+

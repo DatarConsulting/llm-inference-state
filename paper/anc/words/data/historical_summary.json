@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "fused_states_and_logits_exact": true,
+    "state_allocation_below_native": true,
+    "state_allocation_below_A": true,
+    "state_allocation_below_B": false,
+    "process_peak_RSS_below_native": true,
+    "process_peak_RSS_below_A": true,
+    "median_time_below_native": false,
+    "median_time_below_A": false
+  },
+  "fused_positions": 3072,
+  "fused_state_words_compared": 14495514624,
+  "fused_logit_words_compared": 762839040,
+  "state_saving_vs_native": 0.11201985677083337,
+  "state_saving_vs_A": 0.008270847534651238,
+  "RSS_saving_vs_native_bytes": 5226496,
+  "RSS_saving_vs_A_bytes": 3211264,
+  "speedup_vs_native": 0.6735790403900412,
+  "speedup_vs_A": 0.8411625072712692,
+  "speedup_vs_B": 2.659559432004071,
+  "speedup_vs_unfused_local": 0.9820257097238991
+}

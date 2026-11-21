@@ -1,0 +1,7 @@
+{
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.39",
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "model_sha256": "bd258782e35f7f458f8aced1adc053e6e92e89bc735ba3be89d38a06121dc517",
+  "model_bytes": 532517120,
+  "binary_sha256": "f46aa69e84e2e51e5ff5da2cb206963970b43af55130c43d5bc8f2bfad5ebda4"
+}

@@ -1,0 +1,7 @@
+{
+  "allocation_measurement_note": "Primary state totals are sampled after each token; process RSS is the OS high-water mark. Three timing repeats are separate 192-position-per-document runs.",
+  "no_gpu_run": true,
+  "no_QR_SVD_candidate": true,
+  "code_review_scope": "Private research fork only; no commit, push, or upstream submission.",
+  "engine_and_codec_unchanged_after_primary_validation_started": true
+}

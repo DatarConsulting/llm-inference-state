@@ -1,0 +1,29 @@
+\documentclass{article}
+\ifdefined\ReviewCopy
+\usepackage[main,nonatbib]{neurips_2026}
+\else
+\usepackage[main,preprint,nonatbib]{neurips_2026}
+\fi
+\input{preamble}
+\ifdefined\SupplementCopy
+\title{\papertitle\\[5pt]{\normalsize Mathematical Supplement}}
+\hypersetup{pdftitle={\metatitle\space\textendash\space Mathematical Supplement}}
+\else\title{\papertitle}\fi
+\ifdefined\ReviewCopy\author{Anonymous Authors}\else\author{Vashista Nobaub\\Datar Consulting}\hypersetup{pdfauthor={Vashista Nobaub}}\fi
+\date{}
+\begin{document}
+\maketitle
+\ifdefined\SupplementCopy
+\noindent This supplement proves the streaming dimension and the checkpoint bit bounds, derives the exact projected error for shared values, and solves the discrete reference problem for recurrent words. The experimental protocols specify how each certificate is tested. Theorems and figures are numbered within this document.
+
+\noindent\textbf{Code availability.} \codesentence
+\else
+\input{body}
+\input{references}
+\clearpage
+\fi
+\appendix
+\input{appendix}
+\ifdefined\SupplementCopy\clearpage\input{references}\fi
+\ifdefined\ReviewCopy\clearpage\input{checklist}\fi
+\end{document}

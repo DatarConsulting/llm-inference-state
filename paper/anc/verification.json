@@ -1,0 +1,20 @@
+{
+  "raw_heads": 2592,
+  "raw_words": 42467328,
+  "recurrent_source_sha256": "76a24c1dc52756cd645aee01562dfd9a5293566e5d068f067de713cac2d2ba16",
+  "original_census_fields_equal": true,
+  "external_compressor_field_differences": {
+    "bitshuffle": 0,
+    "deflate": 0,
+    "shuffle": 0,
+    "zstd": 0
+  },
+  "adaptive_stream": {
+    "heads": 2592,
+    "local_heads": 1522,
+    "shuffle_heads": 1070,
+    "encoded_bytes": 140735906
+  },
+  "adaptive_stream_sha256": "63314da19624cf282f47e3064dfea17a2d9a6d4a16ba776591f085064b1f0286",
+  "fresh_gpu_generation": false
+}

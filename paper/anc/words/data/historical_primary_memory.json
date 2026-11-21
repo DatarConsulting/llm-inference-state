@@ -1,0 +1,82 @@
+{
+  "off": {
+    "label": "memory_off",
+    "mode": "off",
+    "positions": 1536,
+    "inference_seconds": 37.88709421100001,
+    "wall_seconds": 38.717205408000154,
+    "peak_process_rss_bytes": 837459968,
+    "matrix_base_bytes": 18874368,
+    "peak_matrix_usable_bytes": 18874368,
+    "peak_encoded_payload_bytes": 0,
+    "snapshots": {
+      "omega_bridge": 26505844,
+      "omega_ceramics": 26505844,
+      "omega_records": 26505844
+    }
+  },
+  "lossless": {
+    "label": "memory_lossless",
+    "mode": "lossless",
+    "positions": 1536,
+    "inference_seconds": 41.183939625,
+    "wall_seconds": 42.04830671500531,
+    "peak_process_rss_bytes": 835444736,
+    "matrix_base_bytes": 4608,
+    "peak_matrix_usable_bytes": 16899840,
+    "peak_encoded_payload_bytes": 16782336,
+    "snapshots": {
+      "omega_bridge": 24235428,
+      "omega_ceramics": 24234564,
+      "omega_records": 24234580
+    }
+  },
+  "predictive": {
+    "label": "memory_predictive",
+    "mode": "predictive",
+    "positions": 1536,
+    "inference_seconds": 140.24747323499997,
+    "wall_seconds": 141.0703654730023,
+    "peak_process_rss_bytes": 838656000,
+    "matrix_base_bytes": 4608,
+    "peak_matrix_usable_bytes": 16125776,
+    "peak_encoded_payload_bytes": 16016723,
+    "snapshots": {
+      "omega_bridge": 23602074,
+      "omega_ceramics": 23496982,
+      "omega_records": 23598958
+    }
+  },
+  "local": {
+    "label": "memory_local",
+    "mode": "local",
+    "positions": 1536,
+    "inference_seconds": 52.42660930699998,
+    "wall_seconds": 53.21865573601099,
+    "peak_process_rss_bytes": 833761280,
+    "matrix_base_bytes": 4608,
+    "peak_matrix_usable_bytes": 16760064,
+    "peak_encoded_payload_bytes": 16665983,
+    "snapshots": {
+      "omega_bridge": 24145016,
+      "omega_ceramics": 24143579,
+      "omega_records": 24143939
+    }
+  },
+  "local_fused": {
+    "label": "memory_local_fused",
+    "mode": "local_fused",
+    "positions": 1536,
+    "inference_seconds": 52.96286883100001,
+    "wall_seconds": 53.89015248599753,
+    "peak_process_rss_bytes": 832233472,
+    "matrix_base_bytes": 4608,
+    "peak_matrix_usable_bytes": 16760064,
+    "peak_encoded_payload_bytes": 16665983,
+    "snapshots": {
+      "omega_bridge": 24145016,
+      "omega_ceramics": 24143579,
+      "omega_records": 24143939
+    }
+  }
+}

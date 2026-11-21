@@ -1,0 +1,14 @@
+Lean (version 4.19.0, x86_64-unknown-linux-gnu, commit 6caaee842e94, Release)
+Dependencies: mathlib v4.19.0 and its pinned transitive dependencies
+$ lean -DwarningAsError=true -o <build>/DRAGA/TwoProbes.olean DRAGA/TwoProbes.lean
+'DRAGA.futureEq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.vector_two_sign_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.four_token_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.collision_obstruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.vector_probe_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.ordinary_stream_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+'DRAGA.exact_state_refines_stats' depends on axioms: [propext, Classical.choice, Quot.sound]
+$ lean -DwarningAsError=true -o <build>/DRAGA.olean DRAGA.lean
+Exit status 0 for both kernel-checking commands.
+a7ce2aae07814f9b53700406a3a2c6ee25b01de81121f6f3706978a57632ef06  DRAGA/TwoProbes.lean
+aa1bd95dd88a55a8dd944862b384c9d83074a18bc29ba040c418b5e0c95b4c44  DRAGA.lean

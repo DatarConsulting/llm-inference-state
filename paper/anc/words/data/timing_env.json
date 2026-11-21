@@ -1,0 +1,11 @@
+{
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "logical_cpu": 0,
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "options": [
+    "-std=c++17",
+    "-O3"
+  ],
+  "sample_sha256": "14cefe62c13cecd6a125e90f4c13e92c53588f2c245dfed794f61af8f95b454b"
+}

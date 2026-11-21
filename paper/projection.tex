@@ -1,0 +1,126 @@
+\section{Observable errors of an exact-key cache}
+\label{app:math}
+We give two different characterizations. The first asks how large the projected error can be when each value error lies in a prescribed interval. The second fixes the errors and asks whether \emph{any} query can detect them. Their quantifiers differ. Only the uniform corollary of the first is used by the codec.
+
+\subsection{Shared values and the support function of a box}
+Fix finite index sets for output coordinates $j$, query heads $h$, visible source positions $i$, value channels $c$, and groups $g$. For every head let $p_{hi}\ge0$ and $\sum_i p_{hi}=1$; masked positions can be assigned weight zero. Let $g(h)$ be its group. With real projection $W$ and fixed gates $s_{hc}$ define the linear map on shared residuals
+\begin{equation}
+ (Le)_j=\sum_{h,c}W_{j,hc}s_{hc}\sum_i p_{hi}e_{g(h),i,c}.
+ \label{eq:L}
+\end{equation}
+It models the exact-arithmetic difference when values alone change. The two evaluations must share the same keys, queries, mask and gates.
+
+\begin{theorem}[Sharp radius for shared value errors]\label{thm:box}
+Let $0\le\eta_{gic}<\infty$. Set $a_{j,gic}=\sum_{h:g(h)=g}W_{j,hc}s_{hc}p_{hi}$. Then
+\begin{equation}
+ \max_{|e_{gic}|\le\eta_{gic}}\normi{Le}
+ =\max_j\sum_{g,i,c}\eta_{gic}|a_{j,gic}|.
+ \label{eq:box}
+\end{equation}
+For $|s_{hc}|\le1$ and $\eta_{gic}\le\eta$, this radius is at most $\eta\opnorm{W}$, with $\opnorm{W}=\max_j\sum_{h,c}|W_{j,hc}|$.
+\end{theorem}
+\begin{proof}
+Collect the coefficients of each independently bounded shared residual in \eqref{eq:L}. The triangle inequality gives the right-hand side of \eqref{eq:box} as an upper bound. For a maximizing row $j_\star$, set $e_{gic}=\eta_{gic}\operatorname{sign}(a_{j_\star,gic})$, taking zero where the coefficient vanishes. The $j_\star$ coordinate attains the bound. Applying the triangle inequality inside each $a_{j,gic}$ and summing $p_{hi}$ over $i$ proves the uniform estimate.
+\end{proof}
+
+\paragraph{A strict cancellation.}
+Two heads read the same scalar value residual at the same distribution, with gates one and output weights $+1,-1$. The exact radius is zero for every box. Giving each head an independent residual would produce a radius $2\eta$ for uniform tolerances. Conversely, for one head with gate one, all residuals can have the sign of the corresponding projection coefficient, so the universal constant in the uniform estimate cannot be reduced.
+
+\paragraph{Instantiating the budget.}
+If $W\ne0$, choose $\eta\le1/(128\opnorm W)$. Both the row encoder and raw fallback enforce $|e_{gic}|\le\eta$; raw rows give zero codec error. The resulting bound applies after the ideal linear output projection and before any subsequent rounding. For $W=0$ the projected error is identically zero. For a floating-point execution one can write
+\begin{equation}
+ \normi{\widehat y_{\rm compact}-\widehat y_{\rm dense}}
+ \le \rho_{\rm compact}+\normi{Le}+\rho_{\rm dense},
+ \label{eq:round}
+\end{equation}
+where each $\rho$ bounds that backend's deviation from its own ideal arithmetic at the specified inputs. No $\rho$ was measured here. The packed reader, for example, casts its tile probabilities to BF16 for the value product. A shared token history alone does not make the two networks' hidden states, keys or gates equal.
+
+\subsection{Which residuals are invisible to every query?}
+For a stronger identifiability question we impose more structure. Let an open set $U\subset\R^d$ of query parameters be nonempty, $d\ge1$. For each head $h=1,\ldots,H$ take a nonempty finite visible set $I_h$, effective keys $k_{hi}\in\R^d$, positive base weights $b_{hi}$, and fixed projected residual vectors $r_{hi}\in\R^m$. For grouped reads one may take $r_{hi}=W_h D_h e_{g(h),i}$ with a fixed diagonal gate $D_h$. The head scores are affine in the common parameter $x$; different linear query maps can be absorbed into the effective keys. The mask is fixed throughout $U$ and the gates are frozen. Define
+\begin{align}
+ Z_h(x)&=\sum_{i\in I_h} b_{hi}e^{\langle x,k_{hi}\rangle},&
+ D(x)&=\sum_{h=1}^H
+   \frac{\sum_{i\in I_h} b_{hi}r_{hi}e^{\langle x,k_{hi}\rangle}}{Z_h(x)} .
+ \label{eq:visible}
+\end{align}
+Here $D(x)$ is the projected multihead perturbation. It is an analytic function in this restricted family.
+
+\begin{theorem}[Exact observable quotient]\label{thm:quotient}
+For $u=(i_1,\ldots,i_H)\in\prod_h I_h$, put $s(u)=\sum_h k_{h i_h}$, $b(u)=\prod_h b_{h i_h}$ and $r(u)=\sum_h r_{h i_h}$. Let $S=\{s(u)\}$ contain the distinct key sums and set
+\begin{equation}
+ C_s=\sum_{u:\,s(u)=s} b(u)r(u).
+ \label{eq:classes}
+\end{equation}
+Then $D$ vanishes throughout $U$ if and only if $C_s=0$ for every $s\in S$. Two residual arrays induce identical functions on $U$ precisely when their difference lies in the kernel of the linear map $r\mapsto(C_s)_{s\in S}$. In particular its image is a concrete realization of the quotient by invisible residuals.
+\end{theorem}
+\begin{proof}
+All $Z_h$ are positive. Multiply \eqref{eq:visible} by their product and expand. In the contribution of head $h$, the numerator supplies one $r_{h i_h}$, while all other heads supply just their denominator factors. Collecting identical exponent vectors gives
+\begin{equation}
+ D(x)\prod_h Z_h(x)=\sum_{s\in S} C_s e^{\langle x,s\rangle}.
+ \label{eq:exp}
+\end{equation}
+Zero coefficients therefore suffice. Conversely choose $v$ outside the finite union of hyperplanes $\langle v,s-s'\rangle=0$ for $s\ne s'$. Fix $x_0\in U$ and choose a sufficiently small $\tau>0$ so all $x_j=x_0+j\tau v$, $0\le j<M=|S|$, lie in $U$. At these points the right side is a Vandermonde system in $z_s=e^{\tau\langle v,s\rangle}$, with vector coefficients $C_s e^{\langle x_0,s\rangle}$. The $z_s$ are distinct, so the system is invertible coordinatewise. Vanishing at the selected points forces all $C_s=0$. The last assertion follows from linearity and the first isomorphism theorem.
+\end{proof}
+
+\begin{corollary}[Finite witnesses and a stability bound]\label{cor:probe}
+With the probes above and $V_{js}=z_s^j$, write $Z(x)=\prod_h Z_h(x)$. For exact real arithmetic,
+\begin{equation}
+ \max_s e^{\langle x_0,s\rangle}\normi{C_s}
+ \le \opnorm{V^{-1}}\;\max_{0\le j<M}Z(x_j)\normi{D(x_j)} .
+ \label{eq:conditioning}
+\end{equation}
+If a coefficient is nonzero, at least one of these $M$ probes detects the residual.
+\end{corollary}
+\begin{proof}
+Stack \eqref{eq:exp} at the chosen probes and apply $V^{-1}$ to each output coordinate. Taking absolute row sums gives \eqref{eq:conditioning}.
+\end{proof}
+
+For a single head, \eqref{eq:classes} groups equal keys and takes a weighted sum of their projected residuals. At distinct keys all such residual vectors must individually vanish; duplicate keys can conceal cancellation. With several heads a coordinate's residual can instead cancel across heads. The number $M$ can be as large as $\prod_h |I_h|$. This is an identifiability result and may be prohibitively expensive as an algorithm. No claim is made that model-generated queries range over $U$ with fixed gates.
+
+\paragraph{Why identification can be arbitrarily unstable.}
+Take one scalar head, two distinct scalar keys $0,\delta$ with $\delta>0$, unit base weights and scalar projected residuals $+1,-1$. On $[-R,R]$ with $R>0$,
+\begin{equation}
+ D(x)=\frac{1-e^{\delta x}}{1+e^{\delta x}}=-\tanh(\delta x/2),
+ \qquad \sup_{|x|\le R}|D(x)|=\tanh(R\delta/2).
+ \label{eq:near}
+\end{equation}
+Both residual magnitudes are one. As $\delta\downarrow0$ the observation uniformly approaches zero despite exact identifiability for every $\delta>0$. Thus the inverse problem admits no separation-independent Lipschitz constant on that bounded query set. At $\delta=0$ the residual is exactly invisible.
+
+\begin{corollary}[Affine sigmoid gates]\label{cor:gates}
+The finite coefficient test extends to a finite collection of channel gates
+$s_a(x)=u_a(x)/(1+u_a(x))$, where $u_a(x)=\gamma_a e^{\langle x,\lambda_a\rangle}$ and $\gamma_a>0$. Suppose each contribution to a projected coordinate is a fixed linear coefficient times an attention probability from \eqref{eq:visible}, a value residual, and one such gate. Multiply its total error by
+\begin{equation}
+  \left(\prod_h Z_h(x)\right)\left(\prod_a[1+u_a(x)]\right).
+\end{equation}
+Expand the product and collect equal exponent vectors. The coordinate error vanishes on any nonempty open $U$ if and only if each grouped scalar coefficient vanishes.
+\end{corollary}
+\begin{proof}
+Every denominator is strictly positive. After cancellation, each summand is a product of constants, exponentials and factors $1+u_a$ from the other gates. Distributing the factors gives a finite exponential sum. Independence on an open set follows from the same finite Vandermonde argument as in Theorem~\ref{thm:quotient}. This proof permits negative projections and coincident exponent vectors.
+\end{proof}
+For example, the cancellation $\sigma(x)+\sigma(-x)-1=0$ is visible after writing $z=e^x$ and clearing the common denominator $1+z$. More generally, the coefficient test applies to affine-score, affine-gate families; input-dependent query normalization in a full model need not have this form.
+
+
+\subsection{What changes when the mask moves?}
+\begin{proposition}[Causal-prefix identification]\label{prop:causal}
+Consider one head, a fixed linear projection and gate, and projected residuals $r_1,\ldots,r_n$ shared across all prefix experiments. At prefix $t$ observe $d_t=\sum_{i\le t}p_{ti}r_i$, with known weights and $p_{tt}>0$. Then $d_1=\cdots=d_n=0$ if and only if all $r_i=0$. More generally,
+\begin{equation}
+ r_t=(d_t-\sum_{i<t}p_{ti}r_i)/p_{tt}. \label{eq:causal}
+\end{equation}
+\end{proposition}
+\begin{proof}
+The observation matrix is triangular with diagonal $p_{tt}$. Forward substitution gives \eqref{eq:causal} and proves injectivity. A small diagonal can amplify perturbations, including earlier inversion errors.
+\end{proof}
+Thus even duplicate keys can be separated by a sequence of prefix observations under a common projection. The six recorded generations supply token IDs and selected logit summaries; they do not provide these prefix-wise projected measurements.
+
+\subsection{From a local error to a token decision}
+Let $x_t$ be a complete dense decoder state, including its cache, and $\tilde x_t$ its approximate counterpart. Until the first divergent greedy token, both receive the same discrete input $u_t$. Suppose the exact state update $F_t(\cdot,u_t)$ is $L_t$-Lipschitz on a region containing both trajectories, and the approximate update differs from it by at most $\epsilon_t$ on that region, in a specified state norm. If the dense logit readout is $M_t$-Lipschitz into $\ell_\infty$ and its approximate counterpart has error at most $\xi_t$, then with $\delta_0=\norm{x_0-\tilde x_0}$ (in the chosen norm),
+\begin{align}
+ \delta_t &\le
+ \delta_0\prod_{k=0}^{t-1}L_k+
+ \sum_{j=0}^{t-1}\epsilon_j\prod_{k=j+1}^{t-1}L_k,
+ &\|\tilde z_t-z_t\|_\infty&\le M_t\delta_t+\xi_t. \label{eq:state}
+\end{align}
+Here $\norm{x}$ denotes the chosen state norm and an empty product is one. The first inequality follows by iterating $\delta_{t+1}\le L_t\delta_t+\epsilon_t$, the second by inserting the exact readout at $\tilde x_t$. If the dense top-two logit margin at time $t$ strictly exceeds $2(M_t\delta_t+\xi_t)$, its maximizing token is unchanged: each competitor can close the gap by at most twice the logit error. Applying this test inductively certifies a finite greedy path when all hypotheses hold at every step. No such state constants or margins were logged for the run. Its token agreement is an observation.
+
+\paragraph{Executable witnesses.}
+The companion's \texttt{tools/math\_checks.py} enumerates all 16 corners of a shared two-head residual box using rational arithmetic; directly evaluates a cancelling two-head example; verifies the cleared numerator at finite probes with collisions; and checks a duplicate-key cancellation. These small cases test the indexing and order of summation. The general results follow from the proofs above.

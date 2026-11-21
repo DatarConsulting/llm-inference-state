@@ -1,0 +1,9 @@
+{
+  "exhaustive_k1": 4096,
+  "exhaustive_k2": 4096,
+  "random_k1": 180,
+  "random_k2": 180,
+  "random_k3": 180,
+  "gap_identities": 116,
+  "boundary_cases": 4
+}

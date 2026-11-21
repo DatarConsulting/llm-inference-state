@@ -1,0 +1,52 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools,booktabs,graphicx,microtype,xcolor}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\urlstyle{same}
+
+\renewcommand{\ttdefault}{lmtt}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Sphere}{\mathbb S^{d-1}}
+\newcommand{\Ball}{\mathbb B^p}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\ang}[2]{\langle #1,#2\rangle}
+\newcommand{\K}{K_\beta}
+\newcommand{\rf}{r_{\mathrm{free}}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\D}{D_{d,L}}
+\newcommand{\low}{\lambda_{d,L}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\eqd}{\mathrel{:=}}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\cost}{\mathcal L}
+\newcommand{\bitlen}{\operatorname{bl}}
+\newcommand{\zz}{\operatorname{zz}}
+
+\newcommand{\normi}[1]{\left\lVert #1\right\rVert_\infty}
+\newcommand{\opnorm}[1]{\left\lVert #1\right\rVert_{\infty\to\infty}}
+\makeatletter\let\tabinput\@@input\makeatother
+\newcommand{\witnessfigure}{The five-token example}
+\newcommand{\boundsfigure}{Figure~\ref{fig:bounds}}
+\newcommand{\shorttitle}{Draga LLM}
+\newcommand{\questiontitle}{What Must an Inference State Remember?}
+\newcommand{\scopeattention}{Sharp Memory Bounds for Softmax Attention}
+\newcommand{\scopecheckpoints}{and Exact Recurrent Checkpoints}
+\newcommand{\scopetitle}{\scopeattention\space\scopecheckpoints}
+\newcommand{\papertitle}{\shorttitle\\[3pt]{\large\questiontitle}\\[1pt]{\large\scopeattention\\\scopecheckpoints}}
+\newcommand{\metatitle}{\shorttitle\space\textendash\space\questiontitle\space\scopetitle}
+\newcommand{\codesentence}{%
+  \ifdefined\ReviewCopy
+    All code for this study will be released publicly.%
+  \else
+    All code for this study will be released at \url{https://github.com/DatarConsulting/llm-inference-state}.%
+  \fi}
+\newcommand{\Bchk}{B_{\mathrm{cp}}}
+\newcommand{\Bfree}{B_{\mathrm{free}}}
+\hypersetup{pdftitle={\metatitle},pdfauthor={}}
